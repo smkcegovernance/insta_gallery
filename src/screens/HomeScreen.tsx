@@ -1,9 +1,25 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useMemo} from 'react';
-import {View} from 'react-native';
-import {Appbar, Button, useTheme} from 'react-native-paper';
-import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import HomeProvider, {useHomeContext} from '../contexts/HomeContext';
+import React from 'react';
+import {FlatList, View} from 'react-native';
+import {Appbar, Banner} from 'react-native-paper';
+import {HomeProvider, useHomeContext} from '../contexts/HomeContext';
+import PostCard from '../components/PostCard';
+import useScaffoldStyles from '../hooks/useScaffoldStyles';
+import InstagramIcon from '../components/InstagramIcon';
+
+const SavedPosts = [
+  {
+    url: 'https://www.instagram.com/p/CzaA8IiJQFA/?__a=1&__d=dis',
+  },
+  {
+    url: 'https://www.instagram.com/p/CzWBPBlNbHN/?__a=1&__d=dis',
+  },
+  {
+    url: 'https://www.instagram.com/p/Cpcc6uPDP5i/?__a=1&__d=dis',
+  },
+  {
+    url: 'https://www.instagram.com/p/ClgXDrAPVbS/?__a=1&__d=dis',
+  },
+];
 
 export default function HomeScreen() {
   return (
@@ -14,50 +30,30 @@ export default function HomeScreen() {
 }
 
 export function HomeScreenContent() {
-  const {GoToInstagramSignInScreen} = useHomeContext();
-  const theme = useTheme();
-
-  const styles = useMemo(
-    () => ({
-      scaffold: {
-        backgroundColor: theme.colors.background,
-        flex: 1,
-      },
-      apbar: {
-        backgroundColor: theme.colors.background,
-      },
-      body: {
-        flex: 1,
-        padding: 8,
-      },
-    }),
-    [theme],
-  );
+  const {GoToLoginScreen, isLoginBannerVisible} = useHomeContext();
+  const styles = useScaffoldStyles();
 
   return (
     <View style={styles.scaffold}>
       <Appbar.Header style={styles.apbar} elevated={false}>
         <Appbar.Content title="Insta Gallery" />
-        <Appbar.Action
-          icon="add"
-          onPress={() => {
-            console.log('add');
-          }}
-        />
       </Appbar.Header>
       <View style={styles.body}>
-        <Button
-          mode="contained-tonal"
-          // eslint-disable-next-line react-native/no-inline-styles
-          labelStyle={{fontSize: 20}}
-          style={{}}
-          // eslint-disable-next-line react/no-unstable-nested-components
-          icon={params => (
-            <MaterialCommunityIcon {...params} size={26} name="instagram" />
-          )}
-          onPress={GoToInstagramSignInScreen}>
+        <Banner
+          visible={isLoginBannerVisible}
+          icon={InstagramIcon}
+          actions={[
+            {
+              label: 'Sign in',
+              onPress: GoToLoginScreen,
+            },
+          ]}>
           Sign in to Instagram
-        </Button>
+        </Banner>
+        <FlatList
+          data={SavedPosts}
+          renderItem={({item}) => <PostCard {...item} />}
+        />
       </View>
     </View>
   );

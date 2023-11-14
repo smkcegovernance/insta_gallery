@@ -1,29 +1,39 @@
-import {useNavigation} from '@react-navigation/native';
 import React from 'react';
+import {useHomeNavigation} from '../navigations';
+import {useCookiesContext} from './CookiesContext';
 
 type IHomeProps = {
   children: React.ReactNode;
 };
 
 type IHomeContext = {
-  GoToInstagramSignInScreen: () => void;
+  isLoginBannerVisible: boolean;
+  GoToLoginScreen: () => void;
 };
 
 const HomeContext = React.createContext<IHomeContext>({
-  GoToInstagramSignInScreen: () => {},
+  isLoginBannerVisible: false,
+  GoToLoginScreen: () => {},
 });
 
 export const useHomeContext = () => React.useContext(HomeContext);
 
-export default function HomeProvider(props: IHomeProps) {
-  const navigation = useNavigation();
-  const GoToInstagramSignInScreen = React.useCallback(() => {
-    navigation.navigate('InstagramSignIn');
-  }, [navigation]);
+export function HomeProvider(props: IHomeProps) {
+  const navigation = useHomeNavigation();
+  const {isLoggedIn} = useCookiesContext();
+
+  const GoToLoginScreen = React.useCallback(
+    () => navigation.navigate('Login'),
+    [navigation],
+  );
+
+  const isLoginBannerVisible = React.useMemo(() => !isLoggedIn, [isLoggedIn]);
+
   return (
     <HomeContext.Provider
       value={{
-        GoToInstagramSignInScreen,
+        isLoginBannerVisible,
+        GoToLoginScreen,
       }}>
       {props.children}
     </HomeContext.Provider>
