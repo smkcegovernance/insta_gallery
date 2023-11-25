@@ -6,7 +6,7 @@ type ICookiesProps = {
 };
 type ICookiesContext = {
   isLoggedIn: boolean;
-  cookies: Cookies | undefined;
+  cookies?: Cookies;
   setCookies: (value: Cookies) => void;
 };
 
@@ -19,7 +19,7 @@ const CookiesContext = React.createContext<ICookiesContext>({
 export const useCookiesContext = () => React.useContext(CookiesContext);
 
 export function CookiesProvider(props: ICookiesProps) {
-  const [cookies, setCookies] = React.useState<Cookies | undefined>(undefined);
+  const [cookies, setCookies] = React.useState<Cookies>();
   const isLoggedIn = React.useMemo(() => cookies !== undefined, [cookies]);
   return (
     <CookiesContext.Provider
