@@ -9,7 +9,7 @@ type IconProps = {
 };
 
 const InstagramIcon: IconSource = (props: IconProps) => (
-  <MaterialCommunityIcon {...props} name="instagram" />
+  <MaterialCommunityIcon {...props} size={24} name="instagram" />
 );
 
 export default InstagramIcon;
