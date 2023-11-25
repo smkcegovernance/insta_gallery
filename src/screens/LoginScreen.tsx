@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {Appbar, Button, Dialog, Portal, Text} from 'react-native-paper';
 import WebView from 'react-native-webview';
 import useScaffoldStyles from '../hooks/useScaffoldStyles';
-import {LoginProvider, useLoginContext} from '../contexts/LoginContext';
+import {LoginProvider, useLoginContext} from '../contexts/screens/LoginContext';
 
 export default function LoginScreen() {
   return (
