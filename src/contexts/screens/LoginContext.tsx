@@ -1,8 +1,8 @@
 import CookieManager from '@react-native-cookies/cookies';
 import React from 'react';
 import {WebViewNavigationEvent} from 'react-native-webview/lib/WebViewTypes';
-import {useLoginNavigation} from '../navigations';
-import {useCookiesContext} from './CookiesContext';
+import {useLoginNavigation} from '../../navigations';
+import {useCookiesContext} from '../CookiesContext';
 
 type ILoginProps = {
   children: React.ReactNode;
@@ -36,7 +36,7 @@ export function LoginProvider(props: ILoginProps) {
   const showDialog = React.useCallback(() => setDialogVisible(true), []);
   const backToHome = React.useCallback(() => {
     hideDialog();
-    navigation.navigate('Home');
+    navigation.goBack();
   }, [hideDialog, navigation]);
 
   const handleWebViewLoad = React.useCallback(

@@ -1,6 +1,6 @@
 import React from 'react';
-import {useHomeNavigation} from '../navigations';
-import {useCookiesContext} from './CookiesContext';
+import {useHomeNavigation} from '../../navigations';
+import {useCookiesContext} from '../CookiesContext';
 
 type IHomeProps = {
   children: React.ReactNode;
@@ -9,11 +9,13 @@ type IHomeProps = {
 type IHomeContext = {
   isLoginBannerVisible: boolean;
   GoToLoginScreen: () => void;
+  GoToNewDownloadScreen: () => void;
 };
 
 const HomeContext = React.createContext<IHomeContext>({
   isLoginBannerVisible: false,
-  GoToLoginScreen: () => {},
+  GoToLoginScreen() {},
+  GoToNewDownloadScreen() {},
 });
 
 export const useHomeContext = () => React.useContext(HomeContext);
@@ -26,6 +28,10 @@ export function HomeProvider(props: IHomeProps) {
     () => navigation.navigate('Login'),
     [navigation],
   );
+  const GoToNewDownloadScreen = React.useCallback(
+    () => navigation.navigate('NewDownload'),
+    [navigation],
+  );
 
   const isLoginBannerVisible = React.useMemo(() => !isLoggedIn, [isLoggedIn]);
 
@@ -34,6 +40,7 @@ export function HomeProvider(props: IHomeProps) {
       value={{
         isLoginBannerVisible,
         GoToLoginScreen,
+        GoToNewDownloadScreen,
       }}>
       {props.children}
     </HomeContext.Provider>
