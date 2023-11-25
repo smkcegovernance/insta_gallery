@@ -19,9 +19,9 @@ export default function useChatStyles() {
           ...styles.appbar,
           backgroundColor: '#212121',
         },
-        myMessage: {
+        outgoingMessage: {
           backgroundColor: '#212121',
-          padding: 16,
+          padding: 8,
           borderRadius: 16,
           borderBottomRightRadius: 0,
           margin: 8,
@@ -31,14 +31,24 @@ export default function useChatStyles() {
         myMessageText: {
           fontSize: 18,
         },
-        otherMessage: {
+        incomingTextMessage: {
           backgroundColor: '#212121',
-          padding: 16,
+          padding: 8,
           borderRadius: 16,
           borderTopLeftRadius: 0,
           margin: 8,
           maxWidth: '90%',
           alignSelf: 'flex-start',
+        },
+        incomingImageMessage: {
+          backgroundColor: '#212121',
+          padding: 0,
+          borderRadius: 16,
+          borderTopLeftRadius: 0,
+          margin: 8,
+          maxWidth: '90%',
+          alignSelf: 'flex-start',
+          overflow: 'hidden',
         },
         otherMessageText: {
           fontSize: 18,

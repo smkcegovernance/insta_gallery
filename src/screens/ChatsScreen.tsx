@@ -1,8 +1,10 @@
 import React from 'react';
 import {FlatList, StatusBar, View} from 'react-native';
-import {Appbar, Text, TextInput} from 'react-native-paper';
+import {Appbar, Banner, TextInput} from 'react-native-paper';
 import useChatStyles from '../hooks/useChatStyles';
 import {ChatsProvider, useChatsContext} from '../contexts/screens/ChatsContext';
+import ChatMessage from '../components/ChatMessage';
+import InstagramIcon from '../components/InstagramIcon';
 
 export default function ChatsScreen() {
   return (
@@ -20,39 +22,32 @@ function ChatsScreenContent() {
     isSendButtonVisible,
     addNewMessage,
     messages,
+    isLoginBannerVisible,
+    goToLoginScreen,
   } = useChatsContext();
   return (
     <View style={styles.scaffold}>
-      <StatusBar backgroundColor={'#121212'} />
+      <StatusBar backgroundColor={styles.statusbar.backgroundColor} />
       <Appbar.Header style={styles.appbar}>
         <Appbar.Content title="Chat" />
         <Appbar.Action icon={'search'} onPress={() => {}} />
         <Appbar.Action icon={'more-vert'} onPress={() => {}} />
       </Appbar.Header>
+      <Banner
+        visible={isLoginBannerVisible}
+        icon={InstagramIcon}
+        actions={[
+          {
+            label: 'Sign in',
+            onPress: goToLoginScreen,
+          },
+        ]}>
+        Sign in to Instagram
+      </Banner>
       <FlatList
         data={messages}
-        renderItem={({item}) => (
-          <View
-            style={
-              item.direction === 'out' ? styles.myMessage : styles.otherMessage
-            }>
-            <Text style={styles.myMessageText}>{item.message}</Text>
-          </View>
-        )}
+        renderItem={({item}) => <ChatMessage message={item} />}
       />
-      {/* <View style={styles.body}>
-        <View style={styles.myMessage}>
-          <Text style={styles.myMessageText}>
-            http://instagram.com/abcd/somew
-          </Text>
-        </View>
-        <View style={styles.otherMessage}>
-          <Text style={styles.otherMessageText}>
-            http://instagram.com/abcd/somehttp://instagram.com/abcd/some sdfdsf
-            sdfsdfdd sdfsdfd{' '}
-          </Text>
-        </View>
-      </View> */}
       <TextInput
         placeholder="New Post Url"
         style={styles.newMessageInputBar}
