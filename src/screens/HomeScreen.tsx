@@ -1,10 +1,10 @@
 import React from 'react';
 import {FlatList, View} from 'react-native';
-import {Appbar, Banner} from 'react-native-paper';
-import {HomeProvider, useHomeContext} from '../contexts/HomeContext';
-import PostCard from '../components/PostCard';
-import useScaffoldStyles from '../hooks/useScaffoldStyles';
+import {Appbar, Banner, Divider, FAB, List} from 'react-native-paper';
+import AppbarBackAction from '../components/AppbarBackAction';
 import InstagramIcon from '../components/InstagramIcon';
+import {HomeProvider, useHomeContext} from '../contexts/screens/HomeContext';
+import useScaffoldStyles from '../hooks/useScaffoldStyles';
 
 const SavedPosts = [
   {
@@ -30,12 +30,14 @@ export default function HomeScreen() {
 }
 
 export function HomeScreenContent() {
-  const {GoToLoginScreen, isLoginBannerVisible} = useHomeContext();
+  const {GoToLoginScreen, GoToNewDownloadScreen, isLoginBannerVisible} =
+    useHomeContext();
   const styles = useScaffoldStyles();
 
   return (
     <View style={styles.scaffold}>
-      <Appbar.Header style={styles.apbar} elevated={false}>
+      <Appbar.Header style={styles.appbar} elevated={false}>
+        <AppbarBackAction />
         <Appbar.Content title="Insta Gallery" />
       </Appbar.Header>
       <View style={styles.body}>
@@ -52,9 +54,11 @@ export function HomeScreenContent() {
         </Banner>
         <FlatList
           data={SavedPosts}
-          renderItem={({item}) => <PostCard {...item} />}
+          ItemSeparatorComponent={Divider}
+          renderItem={({item}) => <List.Item title={item.url} />}
         />
       </View>
+      <FAB style={styles.fab} icon="add" onPress={GoToNewDownloadScreen} />
     </View>
   );
 }
