@@ -6,6 +6,8 @@ import {StackNavigationProp} from '@react-navigation/stack';
 export type IRootStackParams = {
   Home: undefined;
   Login: undefined;
+  NewDownload: undefined;
+  Chat: undefined;
 };
 export const RootStack = createNativeStackNavigator<IRootStackParams>();
 
@@ -16,3 +18,12 @@ export const useHomeNavigation = () => useNavigation<IHomeNavigationProps>();
 // instagram login
 type ILoginNavigationProps = StackNavigationProp<IRootStackParams, 'Login'>;
 export const useLoginNavigation = () => useNavigation<ILoginNavigationProps>();
+
+// new download
+type INewDownloadProps = StackNavigationProp<IRootStackParams, 'NewDownload'>;
+export const useNewDownloadNavigation = () =>
+  useNavigation<INewDownloadProps>();
+
+// chat
+type IChatProps = StackNavigationProp<IRootStackParams, 'Chat'>;
+export const useChatNavigation = () => useNavigation<IChatProps>();

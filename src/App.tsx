@@ -9,12 +9,18 @@ import {RootStack} from './navigations';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import {CookiesProvider} from './contexts/CookiesContext';
+import NewDownloadScreen from './screens/NewDownloadScreen';
+import ChatsScreen from './screens/ChatsScreen';
 
 const myPaperSettings: Settings = {
   icon: props => <MaterialIcon {...props} />,
 };
 const myTheme: ThemeProp = {
   ...MD3DarkTheme,
+  colors: {
+    ...MD3DarkTheme.colors,
+    background: '#000000',
+  },
 };
 
 export default function MyApp() {
@@ -23,8 +29,13 @@ export default function MyApp() {
       <CookiesProvider>
         <NavigationContainer>
           <RootStack.Navigator screenOptions={{headerShown: false}}>
+            <RootStack.Screen name="Chat" component={ChatsScreen} />
             <RootStack.Screen name="Home" component={HomeScreen} />
             <RootStack.Screen name="Login" component={LoginScreen} />
+            <RootStack.Screen
+              name="NewDownload"
+              component={NewDownloadScreen}
+            />
           </RootStack.Navigator>
         </NavigationContainer>
       </CookiesProvider>
