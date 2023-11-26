@@ -46,7 +46,7 @@ export const messagesFromPost = (value: IPost): IMessages => {
   return _messages;
 };
 
-export const messageFromPostResult = (value: IPostResult): IMessages => {
+export const messagesFromPostResult = (value: IPostResult): IMessages => {
   if (!value.success) {
     return [newIncomingTextMessage(value.message)];
   }

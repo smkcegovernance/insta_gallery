@@ -2,8 +2,9 @@ import React from 'react';
 import {
   IMessage,
   IMessages,
-  messageFromPostResult,
+  messagesFromPostResult,
   newIncomingMessage,
+  newIncomingTextMessage,
   newOutgoingMessage,
 } from '../../models/IMessage';
 import InstagramProvider from '../../providers/InstagramProvider';
@@ -54,7 +55,7 @@ export function ChatsProvider(props: IChatsProps) {
   }, []);
   const _fetchContent = React.useCallback(async () => {
     var response = await InstagramProvider.fetchPost(newMessage, cookies ?? {});
-    _addNewMessages(messageFromPostResult(response));
+    _addNewMessages(messagesFromPostResult(response));
   }, [_addNewMessages, cookies, newMessage]);
   // declare public function
   const addNewMessage = React.useCallback(() => {
