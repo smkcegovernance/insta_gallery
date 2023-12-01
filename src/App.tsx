@@ -6,10 +6,8 @@ import {ThemeProp} from 'react-native-paper/lib/typescript/types';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 import {RootStack} from './navigations';
-import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import {CookiesProvider} from './contexts/CookiesContext';
-import NewDownloadScreen from './screens/NewDownloadScreen';
 import ChatsScreen from './screens/ChatsScreen';
 
 const myPaperSettings: Settings = {
@@ -30,12 +28,7 @@ export default function MyApp() {
         <NavigationContainer>
           <RootStack.Navigator screenOptions={{headerShown: false}}>
             <RootStack.Screen name="Chat" component={ChatsScreen} />
-            <RootStack.Screen name="Home" component={HomeScreen} />
             <RootStack.Screen name="Login" component={LoginScreen} />
-            <RootStack.Screen
-              name="NewDownload"
-              component={NewDownloadScreen}
-            />
           </RootStack.Navigator>
         </NavigationContainer>
       </CookiesProvider>
