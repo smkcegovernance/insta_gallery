@@ -4,6 +4,7 @@ import {WebViewNavigationEvent} from 'react-native-webview/lib/WebViewTypes';
 import {useLoginNavigation} from '../../navigations';
 import {useCookiesContext} from '../CookiesContext';
 import {InstagramLoginUrl} from '../../constants/constants';
+import {hasInvalidCookies} from '../../extensions/cookies';
 
 type ILoginProps = {
   children: React.ReactNode;
@@ -43,11 +44,8 @@ export function LoginProvider(props: ILoginProps) {
   const handleWebViewLoad = React.useCallback(
     async (event: WebViewNavigationEvent) => {
       var _cookies = await CookieManager.get(event.nativeEvent.url);
-      if (
-        _cookies.csrftoken === undefined ||
-        _cookies.ds_user_id === undefined
-      ) {
-        return true;
+      if (hasInvalidCookies(_cookies)) {
+        return false;
       }
       setCookies(_cookies);
       showDialog();
