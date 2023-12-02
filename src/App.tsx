@@ -5,12 +5,12 @@ import {Settings} from 'react-native-paper/lib/typescript/core/settings';
 import {ThemeProp} from 'react-native-paper/lib/typescript/types';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
-import {RootStack} from './navigations';
-import LoginScreen from './screens/LoginScreen';
 import {CookiesProvider} from './contexts/CookiesContext';
-import ChatsScreen from './screens/ChatsScreen';
 import MessagesProvider from './contexts/MessagesContext';
+import {RootStack} from './navigations';
 import ChatDetailsScreen from './screens/ChatDetailsScreen';
+import ChatsScreen from './screens/ChatsScreen';
+import LoginScreen from './screens/LoginScreen';
 import MessageScreen from './screens/MessageScreen';
 
 const myPaperSettings: Settings = {

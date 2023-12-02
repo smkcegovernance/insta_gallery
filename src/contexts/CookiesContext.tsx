@@ -20,7 +20,15 @@ export const useCookiesContext = () => React.useContext(CookiesContext);
 
 export function CookiesProvider(props: ICookiesProps) {
   const [cookies, setCookies] = React.useState<Cookies>();
-  const isLoggedIn = React.useMemo(() => cookies !== undefined, [cookies]);
+  const isLoggedIn: boolean = React.useMemo<boolean>(
+    () =>
+      !!cookies &&
+      Object.keys(cookies).every(
+        key => new Date(cookies![key].expires!) >= new Date(),
+      ),
+    [cookies],
+  );
+
   return (
     <CookiesContext.Provider
       value={{
