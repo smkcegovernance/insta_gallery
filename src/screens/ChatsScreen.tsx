@@ -46,7 +46,9 @@ function ChatsScreenContent() {
       </Banner>
       <FlatList
         data={messages}
-        renderItem={({item}) => <ChatMessage message={item} />}
+        renderItem={({item, index}) => (
+          <ChatMessage key={index} message={item} />
+        )}
       />
       <TextInput
         placeholder="New Post Url"

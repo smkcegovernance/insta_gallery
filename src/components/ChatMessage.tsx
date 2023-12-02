@@ -43,7 +43,7 @@ function ImageMessage(props: IChatMessageProp) {
   );
   const ImageWidth = 240;
   const AspectRatio =
-    (props.message.image?.width ?? 1) / (props.message.image?.height ?? 1);
+    (props.message.imageWidth ?? 1) / (props.message.imageHeight ?? 1);
   const otherStyles = StyleSheet.create({
     image: {
       width: ImageWidth,
@@ -56,7 +56,7 @@ function ImageMessage(props: IChatMessageProp) {
       <Image
         style={otherStyles.image}
         width={ImageWidth}
-        source={{uri: props.message.image?.url, cache: 'default'}}
+        source={{uri: props.message.imageUrl, cache: 'default'}}
       />
     </View>
   );
