@@ -3,8 +3,6 @@ import {
   IMessage,
   IMessages,
   messagesFromPostResult,
-  newIncomingMessage,
-  newIncomingTextMessage,
   newOutgoingMessage,
 } from '../../models/IMessage';
 import InstagramProvider from '../../providers/InstagramProvider';
@@ -43,7 +41,7 @@ export function ChatsProvider(props: IChatsProps) {
   const navigation = useChatNavigation();
   // declare states
   const [newMessage, setNewMessage] = React.useState<string>('');
-  const [messages, _setMessages] = React.useState<IMessage[]>([]);
+  const [messages, _setMessages] = React.useState<IMessages>([]);
   // declare private function
   const _clearNewMessage = React.useCallback(() => setNewMessage(''), []);
   const _addNewMessage = React.useCallback(

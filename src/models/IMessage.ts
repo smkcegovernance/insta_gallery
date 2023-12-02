@@ -8,8 +8,10 @@ export type IImage = {
   url: string;
 };
 export type IMessage = {
+  id: number;
   type: IMessageType;
   direction: IMessageDirection;
+  timestamp: Date;
   text?: string;
   imageWidth?: number;
   imageHeight?: number;
@@ -18,23 +20,31 @@ export type IMessage = {
 
 export type IMessages = IMessage[];
 
+const uniqueId = (): number => Date.now();
+
 export const newOutgoingMessage = (value: string): IMessage => ({
-  text: value,
-  direction: 'out',
+  id: uniqueId(),
   type: 'text',
+  direction: 'out',
+  timestamp: new Date(),
+  text: value,
 });
 
 export const newIncomingTextMessage = (text: string): IMessage => ({
-  text: text,
-  direction: 'in',
+  id: uniqueId(),
   type: 'text',
+  direction: 'in',
+  timestamp: new Date(),
+  text: text,
 });
 export const newIncomingImageMessage = (image: IImage): IMessage => ({
-  imageHeight: image.height,
-  imageWidth: image.width,
-  imageUrl: image.url,
-  direction: 'in',
+  id: uniqueId(),
   type: 'image',
+  direction: 'in',
+  timestamp: new Date(),
+  imageWidth: image.width,
+  imageHeight: image.height,
+  imageUrl: image.url,
 });
 
 export const messagesFromPost = (value: IPost): IMessages => {
