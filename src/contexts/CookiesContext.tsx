@@ -1,5 +1,6 @@
-import {Cookies} from '@react-native-cookies/cookies';
+import CookieManager, {Cookies} from '@react-native-cookies/cookies';
 import React from 'react';
+import {InstagramLoginUrl} from '../constants/constants';
 
 type ICookiesProps = {
   children: React.ReactNode;
@@ -28,6 +29,15 @@ export function CookiesProvider(props: ICookiesProps) {
       ),
     [cookies],
   );
+
+  const fetchCookies = React.useCallback(async () => {
+    const _cookies = await CookieManager.get(InstagramLoginUrl);
+    setCookies(_cookies);
+  }, []);
+
+  React.useEffect(() => {
+    fetchCookies();
+  }, [fetchCookies]);
 
   return (
     <CookiesContext.Provider

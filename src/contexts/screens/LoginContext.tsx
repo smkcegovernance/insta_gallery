@@ -3,6 +3,7 @@ import React from 'react';
 import {WebViewNavigationEvent} from 'react-native-webview/lib/WebViewTypes';
 import {useLoginNavigation} from '../../navigations';
 import {useCookiesContext} from '../CookiesContext';
+import {InstagramLoginUrl} from '../../constants/constants';
 
 type ILoginProps = {
   children: React.ReactNode;
@@ -31,7 +32,7 @@ export function LoginProvider(props: ILoginProps) {
   const {setCookies} = useCookiesContext();
   const [isDialogVisible, setDialogVisible] = React.useState(false);
   const navigation = useLoginNavigation();
-  const loginUrl = 'https://instagram.com/accounts/login';
+  const loginUrl = InstagramLoginUrl;
   const hideDialog = React.useCallback(() => setDialogVisible(false), []);
   const showDialog = React.useCallback(() => setDialogVisible(true), []);
   const backToHome = React.useCallback(() => {
