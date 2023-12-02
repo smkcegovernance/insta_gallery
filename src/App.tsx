@@ -10,6 +10,8 @@ import LoginScreen from './screens/LoginScreen';
 import {CookiesProvider} from './contexts/CookiesContext';
 import ChatsScreen from './screens/ChatsScreen';
 import MessagesProvider from './contexts/MessagesContext';
+import ChatDetailsScreen from './screens/ChatDetailsScreen';
+import MessageScreen from './screens/MessageScreen';
 
 const myPaperSettings: Settings = {
   icon: props => <MaterialIcon {...props} />,
@@ -31,6 +33,11 @@ export default function MyApp() {
             <RootStack.Navigator screenOptions={{headerShown: false}}>
               <RootStack.Screen name="Chat" component={ChatsScreen} />
               <RootStack.Screen name="Login" component={LoginScreen} />
+              <RootStack.Screen
+                name="ChatDetails"
+                component={ChatDetailsScreen}
+              />
+              <RootStack.Screen name="Message" component={MessageScreen} />
             </RootStack.Navigator>
           </NavigationContainer>
         </MessagesProvider>
