@@ -20,16 +20,6 @@ export type IPostResult = IResult & {
   };
 };
 export const postFromJson = (value: any): IPost => {
-  console.log(
-    ((value.items[0].carousel_media ?? []) as any).map((media: any) => ({
-      Url: media.image_versions2.candidates.reduce(
-        (maxRes: any, currentRes: any) =>
-          (currentRes.height as number) > (maxRes.height as number)
-            ? maxRes
-            : currentRes,
-      ),
-    })),
-  );
   return {
     UserName: value.items[0].user.full_name,
     ProfilePicUrl: value.items[0].user.profile_pic_url,

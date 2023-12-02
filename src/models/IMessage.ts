@@ -2,47 +2,57 @@ import {IPost, IPostResult} from './IPost';
 
 type IMessageType = 'text' | 'image';
 type IMessageDirection = 'in' | 'out';
-type IImage = {
+export type IImage = {
   width: number;
   height: number;
   url: string;
 };
 export type IMessage = {
-  text?: string;
+  id: number;
+  type: IMessageType;
   direction: IMessageDirection;
-  type?: IMessageType;
-  image?: IImage;
+  timestamp: Date;
+  text?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  imageUrl?: string;
 };
 
 export type IMessages = IMessage[];
 
+const uniqueId = (): number => Date.now();
+
 export const newOutgoingMessage = (value: string): IMessage => ({
-  text: value,
-  direction: 'out',
+  id: uniqueId(),
   type: 'text',
+  direction: 'out',
+  timestamp: new Date(),
+  text: value,
 });
 
 export const newIncomingTextMessage = (text: string): IMessage => ({
-  text: text,
-  direction: 'in',
+  id: uniqueId(),
   type: 'text',
+  direction: 'in',
+  timestamp: new Date(),
+  text: text,
 });
 export const newIncomingImageMessage = (image: IImage): IMessage => ({
-  image: image,
-  direction: 'in',
+  id: uniqueId(),
   type: 'image',
+  direction: 'in',
+  timestamp: new Date(),
+  imageWidth: image.width,
+  imageHeight: image.height,
+  imageUrl: image.url,
 });
 
 export const messagesFromPost = (value: IPost): IMessages => {
   let _messages: IMessages = [newIncomingTextMessage(value.UserName)];
   if (value.ProductType === 'clips') {
-    _messages = _messages.concat(
-      newIncomingTextMessage('Clips are not supported yet'),
-    );
+    _messages.push(newIncomingTextMessage('Clips are not supported yet'));
   }
-  _messages = _messages.concat(
-    value.Media.map(media => newIncomingImageMessage(media)),
-  );
+  value.Media.forEach(media => _messages.push(newIncomingImageMessage(media)));
   return _messages;
 };
 
