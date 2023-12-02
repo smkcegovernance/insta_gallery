@@ -1,13 +1,13 @@
 import React from 'react';
 import {
   IMessage,
-  IMessages,
   messagesFromPostResult,
   newOutgoingMessage,
 } from '../../models/IMessage';
 import InstagramProvider from '../../providers/InstagramProvider';
 import {useCookiesContext} from '../CookiesContext';
 import {useChatNavigation} from '../../navigations';
+import {useMessagesContext} from '../MessagesContext';
 
 type IChatsProps = {
   children: React.ReactNode;
@@ -15,21 +15,21 @@ type IChatsProps = {
 
 type IChatsContext = {
   newMessage: string;
-  setNewMessage: (value: string) => void;
   isSendButtonVisible: boolean;
   messages: IMessage[];
-  addNewMessage: () => void;
   isLoginBannerVisible: boolean;
+  setNewMessage: (value: string) => void;
+  addNewMessage: () => void;
   goToLoginScreen: () => void;
 };
 
 const ChatsContext = React.createContext<IChatsContext>({
   newMessage: '',
-  setNewMessage() {},
   isSendButtonVisible: false,
   messages: [],
-  addNewMessage() {},
   isLoginBannerVisible: false,
+  setNewMessage() {},
+  addNewMessage() {},
   goToLoginScreen() {},
 });
 
@@ -39,28 +39,22 @@ export function ChatsProvider(props: IChatsProps) {
   // use hooks
   const {isLoggedIn, cookies} = useCookiesContext();
   const navigation = useChatNavigation();
+  const {messages, addMessage, addMessages} = useMessagesContext();
   // declare states
   const [newMessage, setNewMessage] = React.useState<string>('');
-  const [messages, _setMessages] = React.useState<IMessages>([]);
   // declare private function
   const _clearNewMessage = React.useCallback(() => setNewMessage(''), []);
-  const _addNewMessage = React.useCallback(
-    (message: IMessage) => _setMessages(_messages => _messages.concat(message)),
-    [],
-  );
-  const _addNewMessages = React.useCallback((newMessages: IMessages) => {
-    _setMessages(_messages => _messages.concat(newMessages));
-  }, []);
+
   const _fetchContent = React.useCallback(async () => {
     var response = await InstagramProvider.fetchPost(newMessage, cookies ?? {});
-    _addNewMessages(messagesFromPostResult(response));
-  }, [_addNewMessages, cookies, newMessage]);
+    addMessages(messagesFromPostResult(response));
+  }, [addMessages, cookies, newMessage]);
   // declare public function
   const addNewMessage = React.useCallback(() => {
-    _addNewMessage(newOutgoingMessage(newMessage));
+    addMessage(newOutgoingMessage(newMessage));
     _fetchContent();
     _clearNewMessage();
-  }, [_addNewMessage, _clearNewMessage, _fetchContent, newMessage]);
+  }, [_clearNewMessage, _fetchContent, addMessage, newMessage]);
 
   const goToLoginScreen = React.useCallback(
     () => navigation.navigate('Login'),
