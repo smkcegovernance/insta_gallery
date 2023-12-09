@@ -1,7 +1,7 @@
 import { Slot } from "expo-router";
 import { StatusBar } from "react-native";
 import { PaperProvider } from "react-native-paper";
-import { useMyStatusbarStyles, useMyTheme } from "../src/styles/themes";
+import { useMyStatusbarStyles, useMyTheme } from "../styles/themes";
 
 const Layout = () => {
   const myTheme = useMyTheme();

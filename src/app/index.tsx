@@ -1,4 +1,4 @@
-import useChatStyles from "../src/hooks/useChatStyle";
+import useChatStyles from "../hooks/useChatStyle";
 import React from "react";
 import { FlatList, View, StyleSheet, TouchableOpacity } from "react-native";
 import { Appbar, FAB, Text, TextInput, useTheme } from "react-native-paper";
