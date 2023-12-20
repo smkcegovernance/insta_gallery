@@ -6,6 +6,7 @@ import {
   newOutgoingTextMessage,
 } from "../models/TMessage";
 import { useDatabaseContext } from "./database/database.context";
+import { useLogsContext } from "./database/logs.context";
 
 type TChatsProvider = {
   children: React.ReactNode;
@@ -34,6 +35,7 @@ const ChatsContext = React.createContext<TChatsContext>({
 export const useChatsContext = () => React.useContext(ChatsContext);
 
 export default function ChatsProvider(props: TChatsProvider) {
+  const { addLog } = useLogsContext();
   // state
   const [newMessage, setNewMessage] = React.useState("");
   const [messages, setMessages] = React.useState<TMessages>([]);
@@ -48,7 +50,7 @@ export default function ChatsProvider(props: TChatsProvider) {
       if (!_result) return;
       setMessages((_messages) => [..._messages, _newMessage]);
     } catch (error) {
-      console.log(JSON.stringify(error));
+      addLog(JSON.stringify(error));
     }
   }, [newMessage]);
   // getters
@@ -63,11 +65,14 @@ export default function ChatsProvider(props: TChatsProvider) {
       console.table("messages", _result);
       setMessages(_result);
     } catch (error) {
-      console.log(JSON.stringify(error));
+      addLog(JSON.stringify(error));
     }
   }, []);
   React.useEffect(() => {
-    if (!connected) throw "db not connected";
+    if (!connected) {
+      addLog("db not connected");
+      return;
+    }
     _init();
   }, [connected]);
   return (

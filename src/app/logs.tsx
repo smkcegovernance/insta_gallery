@@ -11,11 +11,12 @@ export default function LogsScreen() {
     <View style={styles.scaffold}>
       <Appbar.Header style={styles.appbar}>
         <AppbarBackAction />
-        <Appbar.Content title={"Chats"} />
+        <Appbar.Content title={"Error Logs"} />
       </Appbar.Header>
       <FlatList
         style={styles.body}
-        data={logs}
+        data={logs.reverse()}
+        inverted
         renderItem={({ item }) => (
           <List.Item title={item.error} description={item.time.toISOString()} />
         )}

@@ -1,12 +1,14 @@
 import { Link, Redirect } from "expo-router";
 import { View } from "react-native";
-import { Appbar } from "react-native-paper";
+import { Appbar, Card, List, Switch } from "react-native-paper";
 import useScaffoldStyles from "../hooks/useScaffoldStyle";
+import { useDatabaseContext } from "../contexts/database/database.context";
 
 export default function RootScreen() {
   const styles = useScaffoldStyles();
+  const dbContext = useDatabaseContext();
   return (
-    <View>
+    <View style={styles.scaffold}>
       <Appbar.Header style={styles.appbar}>
         <Appbar.Content title={"Home"} />
         <Link href={"/logs"} asChild>
@@ -16,6 +18,21 @@ export default function RootScreen() {
           <Appbar.Action icon="message" />
         </Link>
       </Appbar.Header>
+      <View style={styles.body}>
+        <List.Section>
+          <Card>
+            <List.Item
+              title="Database Connection"
+              right={(props) => (
+                <Switch
+                  value={dbContext.databaseOpened}
+                  onChange={dbContext.toggleDatabaseConnection}
+                />
+              )}
+            />
+          </Card>
+        </List.Section>
+      </View>
     </View>
   );
   // return <Redirect href={"/chats"} />;

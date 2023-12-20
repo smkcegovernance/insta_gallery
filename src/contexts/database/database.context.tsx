@@ -2,6 +2,7 @@ import * as SQLite from "expo-sqlite";
 import { SQLResultSet, SQLiteDatabase } from "expo-sqlite";
 import React from "react";
 import { Platform } from "react-native";
+import { useLogsContext } from "./logs.context";
 
 type TDatabase = SQLiteDatabase | undefined;
 
@@ -50,32 +51,33 @@ const DatabaseContext = React.createContext<TDatabaseContext>({
 export const useDatabaseContext = () => React.useContext(DatabaseContext);
 
 export default function DatabaseProvider(props: TDatabaseProviderProps) {
+  const { addLog } = useLogsContext();
   const [database, setDatabase] = React.useState<TDatabase>();
   const databaseOpened = React.useMemo<boolean>(
     () => !!database && !database._closed,
     [database]
   );
   const openDatabaseConnection = React.useCallback(() => {
-    console.log("Opening database connection.");
+    //addLog("Opening database connection.");
     if (Platform.OS === "web") {
-      console.log("Web platform is not supported.");
+      addLog("Web platform is not supported.");
       return false;
     }
     const result = SQLite.openDatabase("db.db");
     setDatabase(result);
 
-    console.log("Database connection opened");
+    addLog("Database connection opened");
   }, []);
 
   const closeDatabaseConnection = React.useCallback(() => {
-    console.log("Closing database connection.");
+    //addLog("Closing database connection.");
     if (Platform.OS === "web") {
-      console.log("Web platform is not supported.");
+      addLog("Web platform is not supported.");
       return;
     }
     database?.closeAsync();
     setDatabase(undefined);
-    console.log("Database connection closed");
+    addLog("Database connection closed");
   }, []);
   const toggleDatabaseConnection = React.useCallback(() => {
     if (!!database && databaseOpened) closeDatabaseConnection();
@@ -106,10 +108,10 @@ export default function DatabaseProvider(props: TDatabaseProviderProps) {
       try {
         if (!databaseOpened) throw "Database not connected";
         var result = await executeSql(query);
-        console.log("result:" + JSON.stringify(result));
+        addLog("result:" + JSON.stringify(result));
         return true;
       } catch (error: any) {
-        console.log(JSON.stringify(error));
+        addLog(JSON.stringify(error));
         return false;
       }
     },
@@ -123,7 +125,7 @@ export default function DatabaseProvider(props: TDatabaseProviderProps) {
         var result: SQLResultSet = await executeSql(query, args);
         return result.rowsAffected > 0;
       } catch (error: any) {
-        console.log(JSON.stringify(error));
+        addLog(JSON.stringify(error));
         return false;
       }
     },
@@ -137,7 +139,7 @@ export default function DatabaseProvider(props: TDatabaseProviderProps) {
         var result: SQLResultSet = await executeSql(query, args);
         return result.rows._array;
       } catch (error: any) {
-        console.log(JSON.stringify(error));
+        addLog(JSON.stringify(error));
         return [];
       }
     },
