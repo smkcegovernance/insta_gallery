@@ -33,7 +33,7 @@ export default function MessagesProvider(props: TMessagesProvider) {
   // functions
   const createTable = React.useCallback(
     (): Promise<boolean> => DatabaseContext.createTable(CreateTableQuery),
-    [DatabaseContext.databaseOpened]
+    []
   );
 
   // const addNewMessage = React.useCallback(
@@ -55,12 +55,12 @@ export default function MessagesProvider(props: TMessagesProvider) {
         message.type,
         message.text ?? "",
       ]),
-    [DatabaseContext.databaseOpened]
+    []
   );
 
   const getMessages = React.useCallback(
     (): Promise<TMessages> => DatabaseContext.getItems(GetMessagesQuery),
-    [DatabaseContext.databaseOpened]
+    []
   );
 
   // getters

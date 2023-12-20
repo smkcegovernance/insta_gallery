@@ -1,8 +1,10 @@
+import { Link } from "expo-router";
 import ChatsProvider, { useChatsContext } from "../contexts/chats.context";
 import useChatStyles from "../hooks/useChatStyle";
 import React from "react";
 import { FlatList, View, StyleSheet, TouchableOpacity } from "react-native";
 import { Appbar, FAB, Text, TextInput, useTheme } from "react-native-paper";
+import AppbarBackAction from "../components/appbar.backaction";
 
 export default function ChatsScreen() {
   return (
@@ -27,7 +29,11 @@ function _ScreenContent() {
   return (
     <View style={styles.scaffold}>
       <Appbar.Header style={styles.appbar}>
+        <AppbarBackAction />
         <Appbar.Content title={"Chats"} />
+        <Link href={"/logs"} asChild>
+          <Appbar.Action icon="alert-circle" />
+        </Link>
         <Appbar.Action
           icon={connected ? "plus" : "minus"}
           onPress={toggleDatabaseConnection}

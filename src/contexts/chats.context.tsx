@@ -60,12 +60,14 @@ export default function ChatsProvider(props: TChatsProvider) {
   const _init = React.useCallback(async () => {
     try {
       const _result = await getMessages();
+      console.table("messages", _result);
       setMessages(_result);
     } catch (error) {
       console.log(JSON.stringify(error));
     }
-  }, [connected]);
+  }, []);
   React.useEffect(() => {
+    if (!connected) throw "db not connected";
     _init();
   }, [connected]);
   return (

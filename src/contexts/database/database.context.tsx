@@ -52,7 +52,7 @@ export const useDatabaseContext = () => React.useContext(DatabaseContext);
 export default function DatabaseProvider(props: TDatabaseProviderProps) {
   const [database, setDatabase] = React.useState<TDatabase>();
   const databaseOpened = React.useMemo<boolean>(
-    () => database !== undefined && !database._closed,
+    () => !!database && !database._closed,
     [database]
   );
   const openDatabaseConnection = React.useCallback(() => {
@@ -65,7 +65,7 @@ export default function DatabaseProvider(props: TDatabaseProviderProps) {
     setDatabase(result);
 
     console.log("Database connection opened");
-  }, [databaseOpened]);
+  }, []);
 
   const closeDatabaseConnection = React.useCallback(() => {
     console.log("Closing database connection.");
@@ -76,9 +76,9 @@ export default function DatabaseProvider(props: TDatabaseProviderProps) {
     database?.closeAsync();
     setDatabase(undefined);
     console.log("Database connection closed");
-  }, [databaseOpened]);
+  }, []);
   const toggleDatabaseConnection = React.useCallback(() => {
-    if (databaseOpened) closeDatabaseConnection();
+    if (!!database && databaseOpened) closeDatabaseConnection();
     else openDatabaseConnection();
   }, [database, databaseOpened]);
 

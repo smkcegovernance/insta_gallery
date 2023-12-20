@@ -5,6 +5,7 @@ import { PaperProvider } from "react-native-paper";
 import { useMyStatusbarStyles, useMyTheme } from "../styles/themes";
 import DatabaseProvider from "../contexts/database/database.context";
 import MessagesProvider from "../contexts/database/messages.context";
+import LogsProvider from "../contexts/database/logs.context";
 
 export default function RootLayout() {
   const myTheme = useMyTheme();
@@ -12,11 +13,13 @@ export default function RootLayout() {
   return (
     <PaperProvider theme={myTheme}>
       <StatusBar {...statusbarStyle} />
-      <DatabaseProvider>
-        <MessagesProvider>
-          <Slot />
-        </MessagesProvider>
-      </DatabaseProvider>
+      <LogsProvider>
+        <DatabaseProvider>
+          <MessagesProvider>
+            <Slot />
+          </MessagesProvider>
+        </DatabaseProvider>
+      </LogsProvider>
     </PaperProvider>
   );
 }
