@@ -22,7 +22,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.aim.instagallery"
     },
     "web": {
       "bundler": "metro",
@@ -35,6 +36,14 @@
     "experiments": {
       "typedRoutes": true,
       "tsconfigPaths": false
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "c10a5c3c-7fe3-4046-9371-d34d78f6d377"
+      }
     }
   }
 }
