@@ -3,8 +3,18 @@ import ChatsProvider, { useChatsContext } from "../contexts/chats.context";
 import useChatStyles from "../hooks/useChatStyle";
 import React from "react";
 import { FlatList, View, StyleSheet, TouchableOpacity } from "react-native";
-import { Appbar, FAB, Text, TextInput, useTheme } from "react-native-paper";
+import {
+  Appbar,
+  Divider,
+  FAB,
+  Menu,
+  Switch,
+  Text,
+  TextInput,
+  useTheme,
+} from "react-native-paper";
 import AppbarBackAction from "../components/appbar.backaction";
+import useVisibility from "src/hooks/useVisibility";
 
 export default function ChatsScreen() {
   return (
@@ -26,18 +36,23 @@ function _ScreenContent() {
     sendMessage,
   } = useChatsContext();
 
+  const MenuVisibility = useVisibility();
+
   return (
     <View style={styles.scaffold}>
       <Appbar.Header style={styles.appbar}>
         <AppbarBackAction />
         <Appbar.Content title={"Chats"} />
-        <Link href={"/logs"} asChild>
-          <Appbar.Action icon="alert-circle" />
-        </Link>
-        <Appbar.Action
-          icon={connected ? "plus" : "minus"}
-          onPress={toggleDatabaseConnection}
-        />
+        <Switch value={connected} onChange={toggleDatabaseConnection} />
+        <Menu
+          visible={MenuVisibility.isVisible}
+          onDismiss={MenuVisibility.hide}
+          anchor={
+            <Appbar.Action icon="dots-vertical" onPress={MenuVisibility.show} />
+          }
+        >
+          <Menu.Item onPress={() => {}} title="Clear" leadingIcon={"close"} />
+        </Menu>
       </Appbar.Header>
       <FlatList
         style={styles.body}
