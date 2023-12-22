@@ -1,6 +1,7 @@
 import React from "react";
 
 type Log = {
+  tag: string;
   error: string;
   time: Date;
 };
@@ -8,7 +9,7 @@ type TLogs = Log[];
 
 type TLogsContext = {
   logs: TLogs;
-  addLog: (log: Log | string) => void;
+  addLog: (log: Log | string, tag: string) => void;
 };
 
 type TLogsProviderProps = {
@@ -26,7 +27,9 @@ export default function LogsProvider(props: TLogsProviderProps) {
   const [logs, setLogs] = React.useState<TLogs>([]);
   const addLog = React.useCallback((value: Log | string) => {
     const _log =
-      typeof value === "string" ? { error: value, time: new Date() } : value;
+      typeof value === "string"
+        ? { error: value, time: new Date(), tag: "" }
+        : value;
 
     console.log(JSON.stringify(_log));
     return setLogs((_logs) => [..._logs, _log]);

@@ -36,18 +36,6 @@ export default function MessagesProvider(props: TMessagesProvider) {
     []
   );
 
-  // const addNewMessage = React.useCallback(
-  //   (message: TMessage): Promise<boolean> => {
-  //     return DatabaseContext.postItem(InsertMessageQuery, [
-  //       message.direction,
-  //       message.type,
-  //       message.text ?? "",
-  //     ]);
-  //     // if (result) setMessages((_messages: TMessages) => [..._messages, message]);
-  //   },
-  //   []
-  // );
-
   const addNewMessage = React.useCallback(
     (message: TMessage): Promise<boolean> =>
       DatabaseContext.postItem(InsertMessageQuery, [
@@ -66,8 +54,8 @@ export default function MessagesProvider(props: TMessagesProvider) {
   // getters
   // effects
   React.useEffect(() => {
-    if (!DatabaseContext.databaseOpened) createTable();
-  }, [DatabaseContext.databaseOpened]);
+    createTable();
+  }, []);
 
   return (
     <MessagesContext.Provider

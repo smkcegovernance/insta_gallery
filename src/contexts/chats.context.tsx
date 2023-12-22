@@ -40,7 +40,7 @@ export default function ChatsProvider(props: TChatsProvider) {
   const [newMessage, setNewMessage] = React.useState("");
   const [messages, setMessages] = React.useState<TMessages>([]);
   const { getMessages, addNewMessage } = useMessagesContext();
-  const { databaseOpened: connected, toggleDatabaseConnection } =
+  const { databaseOpened: connected, toggle: toggleDatabaseConnection } =
     useDatabaseContext();
   // functions
   const sendMessage = React.useCallback(async () => {
