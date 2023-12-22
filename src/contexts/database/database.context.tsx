@@ -4,10 +4,10 @@ import { useLogsContext } from "./logs.context";
 import { SQLResultSet, openDatabase } from "expo-sqlite";
 
 type TDatabaseContext = {
+  connected: boolean;
   open: () => void;
   close: () => void;
   toggle: () => void;
-  connected: () => boolean;
   createTable: (query: string) => Promise<boolean>;
   postItem: (
     query: string,
@@ -32,10 +32,10 @@ type TDatabaseProviderProps = {
 };
 
 const DatabaseContext = React.createContext<TDatabaseContext>({
+  connected: false,
   open: () => {},
   close: () => {},
   toggle: () => {},
-  connected: () => false,
   createTable: () => Promise.reject(),
   postItem: () => Promise.reject(),
   getItems: () => Promise.reject(),
@@ -47,50 +47,47 @@ export const useDatabaseContext = () => React.useContext(DatabaseContext);
 
 export default function DatabaseProvider(props: TDatabaseProviderProps) {
   const { addLog } = useLogsContext();
-
-  const idDBConnected = DbRepository.databaseConnected;
+  const [connected, setConnected] = React.useState<boolean>(false);
 
   const open = React.useCallback(() => {
     try {
       DbRepository.openDatabaseConnection();
+      setConnected(true);
     } catch (error) {
       addLog(JSON.stringify(error), "db-open");
+      setConnected(false);
     }
   }, []);
 
   const close = React.useCallback(() => {
     try {
       DbRepository.closeDatabaseConnection();
+      setConnected(false);
     } catch (error) {
       addLog(JSON.stringify(error), "db-close");
     }
   }, []);
 
   const toggle = React.useCallback(() => {
-    try {
-      DbRepository.toggleDatabaseConnection();
-    } catch (error) {
-      addLog(JSON.stringify(error), "db-close");
+    if (connected) {
+      close();
+    } else {
+      open();
     }
-  }, []);
-
-  const connected = DbRepository.databaseConnected;
+  }, [connected]);
 
   const executeSql = React.useCallback(DbRepository.executeSql, []);
 
-  const createTable = React.useCallback(
-    async (query: string) => {
-      try {
-        var result = await executeSql(query);
-        addLog(JSON.stringify(result), "createtable");
-        return true;
-      } catch (error: any) {
-        addLog(JSON.stringify(error), "createtable");
-        return false;
-      }
-    },
-    [idDBConnected]
-  );
+  const createTable = React.useCallback(async (query: string) => {
+    try {
+      var result = await executeSql(query);
+      addLog(JSON.stringify(result), "createtable");
+      return true;
+    } catch (error: any) {
+      addLog(JSON.stringify(error), "createtable");
+      return false;
+    }
+  }, []);
 
   const postItem = React.useCallback(
     async (query: string, args?: (string | number | null)[]) => {
@@ -102,13 +99,12 @@ export default function DatabaseProvider(props: TDatabaseProviderProps) {
         return false;
       }
     },
-    [idDBConnected]
+    []
   );
 
   const getItems = React.useCallback(
     async (query: string, args?: (string | number | null)[]) => {
       try {
-        if (!idDBConnected) throw "Database not connected";
         var result: SQLResultSet = await executeSql(query, args);
         return result.rows._array;
       } catch (error: any) {
@@ -125,17 +121,17 @@ export default function DatabaseProvider(props: TDatabaseProviderProps) {
 
   // effect
   React.useEffect(() => {
-    open(); 
+    open();
     return close;
   }, []);
 
   return (
     <DatabaseContext.Provider
       value={{
+        connected,
         open,
         close,
         toggle,
-        connected,
         createTable,
         postItem,
         getItems,

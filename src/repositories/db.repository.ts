@@ -17,14 +17,10 @@ const closeDatabaseConnection = () => {
   //addLog("Closing database connection.");
   if (Platform.OS === "web") throw { error: "Web platform is not supported." };
   database?.closeAsync();
+  database = undefined;
 };
 
 const databaseConnected = () => !!database && !database._closed;
-
-const toggleDatabaseConnection = () => {
-  if (databaseConnected()) closeDatabaseConnection();
-  else openDatabaseConnection();
-};
 
 const executeSql = (sqlStatement: string, args?: (string | number | null)[]) =>
   new Promise<SQLResultSet>((resolve, reject) => {
@@ -47,7 +43,6 @@ const DbRepository = {
   openDatabaseConnection,
   closeDatabaseConnection,
   databaseConnected,
-  toggleDatabaseConnection,
   executeSql,
 } as const;
 

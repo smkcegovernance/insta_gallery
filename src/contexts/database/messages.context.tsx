@@ -54,8 +54,8 @@ export default function MessagesProvider(props: TMessagesProvider) {
   // getters
   // effects
   React.useEffect(() => {
-    createTable();
-  }, []);
+    if (DatabaseContext.connected) createTable();
+  }, [DatabaseContext.connected]);
 
   return (
     <MessagesContext.Provider

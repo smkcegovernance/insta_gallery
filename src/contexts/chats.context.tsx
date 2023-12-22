@@ -40,8 +40,7 @@ export default function ChatsProvider(props: TChatsProvider) {
   const [newMessage, setNewMessage] = React.useState("");
   const [messages, setMessages] = React.useState<TMessages>([]);
   const { getMessages, addNewMessage } = useMessagesContext();
-  const { databaseOpened: connected, toggle: toggleDatabaseConnection } =
-    useDatabaseContext();
+  const { connected, toggle: toggleDatabaseConnection } = useDatabaseContext();
   // functions
   const sendMessage = React.useCallback(async () => {
     try {
@@ -50,7 +49,7 @@ export default function ChatsProvider(props: TChatsProvider) {
       if (!_result) return;
       setMessages((_messages) => [..._messages, _newMessage]);
     } catch (error) {
-      addLog(JSON.stringify(error));
+      addLog(JSON.stringify(error), "send-message");
     }
   }, [newMessage]);
   // getters
@@ -65,15 +64,11 @@ export default function ChatsProvider(props: TChatsProvider) {
       console.table("messages", _result);
       setMessages(_result);
     } catch (error) {
-      addLog(JSON.stringify(error));
+      addLog(JSON.stringify(error), "chats-init");
     }
   }, []);
   React.useEffect(() => {
-    if (!connected) {
-      addLog("db not connected");
-      return;
-    }
-    _init();
+    if (connected) _init();
   }, [connected]);
   return (
     <ChatsContext.Provider

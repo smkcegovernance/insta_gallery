@@ -25,7 +25,7 @@ export default function RootScreen() {
               title="Database Connection"
               right={(props) => (
                 <Switch
-                  value={dbContext.databaseOpened}
+                  value={dbContext.connected}
                   onChange={dbContext.toggle}
                 />
               )}

@@ -42,10 +42,8 @@ function _ScreenContent() {
       <FlatList
         style={styles.body}
         data={messages}
-        // keyExtractor={(item) => item.id.toString()}
         renderItem={({ item, index }) => (
           <View key={index}>
-            {/* style= {item.isUser ? styles.userMessage : styles.otherMessageText} */}
             <Text>{item.text}</Text>
           </View>
         )}
