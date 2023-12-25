@@ -1,6 +1,6 @@
 import { Link } from "expo-router";
 import ChatsProvider, { useChatsContext } from "../contexts/chats.context";
-import useChatStyles from "../hooks/useChatStyle";
+import useChatStyles from "../hooks/styles/useChatStyle";
 import React from "react";
 import { FlatList, View, StyleSheet, TouchableOpacity } from "react-native";
 import {
@@ -14,7 +14,7 @@ import {
   useTheme,
 } from "react-native-paper";
 import AppbarBackAction from "../components/appbar.backaction";
-import useVisibility from "src/hooks/useVisibility";
+import useVisibility from "../hooks/useVisibility";
 
 export default function ChatsScreen() {
   return (

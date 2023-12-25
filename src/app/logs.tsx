@@ -1,7 +1,7 @@
 import { View, FlatList } from "react-native";
 import { Appbar, List } from "react-native-paper";
 import { useLogsContext } from "../contexts/database/logs.context";
-import useScaffoldStyles from "../hooks/useScaffoldStyle";
+import useScaffoldStyles from "../hooks/styles/useScaffoldStyle";
 import AppbarBackAction from "../components/appbar.backaction";
 
 export default function LogsScreen() {
