@@ -20,11 +20,11 @@ const closeDatabaseConnection = () => {
   database = undefined;
 };
 
-const databaseConnected = () => !!database && !database._closed;
+const isDatabaseConnected = () => !!database && !database._closed;
 
 const executeSql = (sqlStatement: string, args?: (string | number | null)[]) =>
   new Promise<SQLResultSet>((resolve, reject) => {
-    if (!databaseConnected()) reject("database not found");
+    if (!isDatabaseConnected()) reject("database not found");
 
     database?.transaction((tx) => {
       tx.executeSql(
@@ -42,7 +42,7 @@ const executeSql = (sqlStatement: string, args?: (string | number | null)[]) =>
 const DbRepository = {
   openDatabaseConnection,
   closeDatabaseConnection,
-  databaseConnected,
+  isDatabaseConnected,
   executeSql,
 } as const;
 
