@@ -1,6 +1,6 @@
 import React from "react";
-import { TMessage, TMessages } from "src/models/TMessage";
-import { useDatabaseContext } from "./database.context";
+import { useDatabaseContext } from "../../../services/database/database.context";
+import { TMessage, TMessages } from "../../../models/TMessage";
 
 const CreateTableQuery = `
   create table if not exists messages (
@@ -12,23 +12,15 @@ const CreateTableQuery = `
 const GetMessagesQuery = `select * from messages;`;
 const InsertMessageQuery = `insert into messages (direction, type, text) values (?, ?, ?);`;
 
-type TMessagesProvider = {
-  children: React.ReactNode;
-};
+const ClearAllMessagesQuery = `delete from messages;`;
 
-type TMessagesContext = {
+type IUseMessages = {
   addNewMessage: (message: TMessage) => Promise<boolean>;
   getMessages: () => Promise<TMessages>;
+  clearAllMessages: () => Promise<boolean>;
 };
 
-const MessagesContext = React.createContext<TMessagesContext>({
-  addNewMessage: () => Promise.reject(),
-  getMessages: () => Promise.reject(),
-});
-
-export const useMessagesContext = () => React.useContext(MessagesContext);
-
-export default function MessagesProvider(props: TMessagesProvider) {
+const useMessages = (): IUseMessages => {
   const DatabaseContext = useDatabaseContext();
   // functions
   const createTable = React.useCallback(
@@ -51,20 +43,22 @@ export default function MessagesProvider(props: TMessagesProvider) {
     []
   );
 
+  const clearAllMessages = React.useCallback(
+    (): Promise<boolean> => DatabaseContext.deleteItems(ClearAllMessagesQuery),
+    []
+  );
+
   // getters
   // effects
   React.useEffect(() => {
     if (DatabaseContext.connected) createTable();
   }, [DatabaseContext.connected]);
 
-  return (
-    <MessagesContext.Provider
-      value={{
-        addNewMessage,
-        getMessages,
-      }}
-    >
-      {props.children}
-    </MessagesContext.Provider>
-  );
-}
+  return {
+    addNewMessage,
+    getMessages,
+    clearAllMessages,
+  } as const;
+};
+
+export default useMessages;

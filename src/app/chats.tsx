@@ -34,6 +34,7 @@ function _ScreenContent() {
     toggleDatabaseConnection,
     setNewMessage,
     sendMessage,
+    clearAll,
   } = useChatsContext();
 
   const MenuVisibility = useVisibility();
@@ -41,9 +42,8 @@ function _ScreenContent() {
   return (
     <View style={styles.scaffold}>
       <Appbar.Header style={styles.appbar}>
-        <AppbarBackAction />
+        {/* <AppbarBackAction /> */}
         <Appbar.Content title={"Chats"} />
-        <Switch value={connected} onChange={toggleDatabaseConnection} />
         <Menu
           visible={MenuVisibility.isVisible}
           onDismiss={MenuVisibility.hide}
@@ -51,7 +51,11 @@ function _ScreenContent() {
             <Appbar.Action icon="dots-vertical" onPress={MenuVisibility.show} />
           }
         >
-          <Menu.Item onPress={() => {}} title="Clear" leadingIcon={"close"} />
+          <Menu.Item
+            onPress={clearAll}
+            title="Clear"
+            leadingIcon={"close"}
+          />
         </Menu>
       </Appbar.Header>
       <FlatList
@@ -81,7 +85,7 @@ function _ScreenContent() {
             onPress={sendMessage}
           />
         }
-        left={<TextInput.Icon icon="magnify" disabled />}
+        left={<TextInput.Icon icon="message" disabled />}
         mode="outlined"
         outlineStyle={styles.newMessageInputBarOutline}
         autoFocus

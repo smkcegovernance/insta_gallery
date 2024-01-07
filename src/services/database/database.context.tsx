@@ -1,7 +1,6 @@
 import React from "react";
-import DbRepository from "../../repositories/db.repository";
-import { useLogsContext } from "./logs.context";
 import { SQLResultSet, openDatabase } from "expo-sqlite";
+import DbRepository from "./db.repository";
 
 type TDatabaseContext = {
   connected: boolean;
@@ -46,7 +45,6 @@ const DatabaseContext = React.createContext<TDatabaseContext>({
 export const useDatabaseContext = () => React.useContext(DatabaseContext);
 
 export default function DatabaseProvider(props: TDatabaseProviderProps) {
-  const { addLog } = useLogsContext();
   const [connected, setConnected] = React.useState<boolean>(false);
 
   const open = React.useCallback(() => {
@@ -54,7 +52,7 @@ export default function DatabaseProvider(props: TDatabaseProviderProps) {
       DbRepository.openDatabaseConnection();
       setConnected(true);
     } catch (error) {
-      addLog(JSON.stringify(error), "db-open");
+      console.log("db-open", JSON.stringify(error));
       setConnected(false);
     }
   }, []);
@@ -64,7 +62,7 @@ export default function DatabaseProvider(props: TDatabaseProviderProps) {
       DbRepository.closeDatabaseConnection();
       setConnected(false);
     } catch (error) {
-      addLog(JSON.stringify(error), "db-close");
+      console.log("db-close", JSON.stringify(error));
     }
   }, []);
 
@@ -81,10 +79,10 @@ export default function DatabaseProvider(props: TDatabaseProviderProps) {
   const createTable = React.useCallback(async (query: string) => {
     try {
       var result = await executeSql(query);
-      addLog(JSON.stringify(result), "createtable");
+      console.log("createtable", JSON.stringify(result));
       return true;
     } catch (error: any) {
-      addLog(JSON.stringify(error), "createtable");
+      console.log("createtable", JSON.stringify(error));
       return false;
     }
   }, []);
@@ -95,7 +93,7 @@ export default function DatabaseProvider(props: TDatabaseProviderProps) {
         var result: SQLResultSet = await executeSql(query, args);
         return result.rowsAffected > 0;
       } catch (error: any) {
-        addLog(JSON.stringify(error), "postItem");
+        console.log("postItem", JSON.stringify(error));
         return false;
       }
     },
@@ -108,7 +106,7 @@ export default function DatabaseProvider(props: TDatabaseProviderProps) {
         var result: SQLResultSet = await executeSql(query, args);
         return result.rows._array;
       } catch (error: any) {
-        addLog(JSON.stringify(error), "getItems");
+        console.log("getItems", JSON.stringify(error));
         return [];
       }
     },
