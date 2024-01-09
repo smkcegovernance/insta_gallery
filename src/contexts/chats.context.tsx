@@ -55,6 +55,7 @@ export default function ChatsProvider(props: TChatsProvider) {
       const _result = await addNewMessage(_newMessage);
       if (!_result) return;
       setMessages((_messages) => [..._messages, _newMessage]);
+      setNewMessage("");
     } catch (error) {
       console.log(error);
     }
