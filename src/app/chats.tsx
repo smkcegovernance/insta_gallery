@@ -18,6 +18,7 @@ import {
 import AppbarBackAction from "../components/appbar.backaction";
 import useVisibility from "../hooks/useVisibility";
 import { SafeAreaView } from "react-native-safe-area-context";
+import ChatMessage from "../components/chat.message";
 
 export default function ChatsScreen() {
   return (
@@ -80,9 +81,10 @@ function _ScreenContent() {
           style={styles.body}
           data={messages}
           renderItem={({ item, index }) => (
-            <View key={index}>
-              <Text>{item.text}</Text>
-            </View>
+            <ChatMessage message={item} />
+            // <View key={index}>
+            //   <Text>{item.text}</Text>
+            // </View>
           )}
         />
 

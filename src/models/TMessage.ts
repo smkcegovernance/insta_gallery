@@ -6,6 +6,9 @@ export type TMessage = {
   direction: MessageDirection;
   type: MessageType;
   text?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  imageUrl?: string;
 };
 
 export type TMessages = TMessage[];
