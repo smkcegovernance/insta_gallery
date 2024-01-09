@@ -16,10 +16,12 @@ type TChatsContext = {
   newMessage: string;
   sendButtonEnabled: boolean;
   messages: TMessages;
+  searchQuery: string;
   toggleDatabaseConnection: () => void;
   setNewMessage: (value: string) => void;
   sendMessage: () => void;
   clearAll: () => void;
+  setSearchQuery: (value: string) => void;
 };
 
 const ChatsContext = React.createContext<TChatsContext>({
@@ -27,16 +29,19 @@ const ChatsContext = React.createContext<TChatsContext>({
   newMessage: "",
   sendButtonEnabled: false,
   messages: [],
+  searchQuery: "",
   toggleDatabaseConnection: () => {},
   setNewMessage() {},
   sendMessage() {},
   clearAll() {},
+  setSearchQuery() {},
 });
 
 export const useChatsContext = () => React.useContext(ChatsContext);
 
 export default function ChatsProvider(props: TChatsProvider) {
   const [newMessage, setNewMessage] = React.useState("");
+  const [searchQuery, setSearchQuery] = React.useState("");
 
   const [messages, setMessages] = React.useState<TMessages>([]);
 
@@ -91,10 +96,12 @@ export default function ChatsProvider(props: TChatsProvider) {
         messages,
         newMessage,
         sendButtonEnabled,
+        searchQuery,
         toggleDatabaseConnection,
         setNewMessage,
         sendMessage,
         clearAll,
+        setSearchQuery,
       }}
     >
       {props.children}
