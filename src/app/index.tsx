@@ -1,7 +1,7 @@
 import { Link, Redirect } from "expo-router";
 import { View } from "react-native";
 import { Appbar, Card, List, Switch } from "react-native-paper";
-import useScaffoldStyles from "../hooks/styles/useScaffoldStyle";
+import useScaffoldStyles from "../hooks/styles/useScaffoldStyles";
 import { useDatabaseContext } from "../services/database/database.context";
 
 export default function RootScreen() {

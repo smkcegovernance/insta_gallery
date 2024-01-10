@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 import { Image } from "react-native";
-import useChatStyles from "../hooks/styles/useChatStyle";
+import useChatStyles from "../hooks/styles/useChatStyles";
 import { TMessage } from "../models/TMessage";
 
 type IChatMessageProp = {

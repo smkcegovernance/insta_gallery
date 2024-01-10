@@ -1,11 +1,12 @@
 import { Link } from "expo-router";
 import ChatsProvider, { useChatsContext } from "../contexts/chats.context";
-import useChatStyles from "../hooks/styles/useChatStyle";
+import useChatStyles from "../hooks/styles/useChatStyles";
 import React from "react";
 import { FlatList, View, StyleSheet, TouchableOpacity } from "react-native";
 import {
   Appbar,
   Avatar,
+  Banner,
   Divider,
   FAB,
   Menu,
@@ -77,6 +78,18 @@ function _ScreenContent() {
             onChangeText={setSearchQuery}
           />
         </View>
+        <Banner
+          visible={true}//isLoginBannerVisible}
+          icon={'instagram'}
+          // actions={[
+          //   {
+          //     label: "Sign in",
+          //     onPress: goToLoginScreen,
+          //   },
+          // ]}
+        >
+          Sign in to Instagram
+        </Banner>
         <FlatList
           style={styles.body}
           data={messages}

@@ -1,5 +1,5 @@
 import React from "react";
-import useScaffoldStyles from "./useScaffoldStyle";
+import useScaffoldStyles from "./useScaffoldStyles";
 import { StyleSheet } from "react-native";
 
 export default function useChatStyles() {
